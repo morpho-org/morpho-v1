@@ -7,7 +7,6 @@ methods {
     function prevRoot() external returns(bytes32) envfree;
     function currRoot() external returns(bytes32) envfree;
     function claimed(address) external returns(uint256) envfree;
-    function claim(address, uint256, bytes32[]) external envfree;
 
     function MerkleTrees.getValue(address, address) external returns(uint256) envfree;
     function MerkleTrees.getHash(address, address) external returns(bytes32) envfree;
@@ -27,40 +26,40 @@ rule updateRootStorageChange(env e, bytes32 _newRoot) {
 }
 
 // Check an account claimed amount is correctly updated.
-rule updatedClaimedAmount(address _account, uint256 _claimable, bytes32[] _proof) {
-    claim(_account, _claimable, _proof);
+rule updatedClaimedAmount(env e, address _account, uint256 _claimable, bytes32[] _proof) {
+    claim(e, _account, _claimable, _proof);
 
     assert _claimable == claimed(_account);
 }
 
 // Check an account can only claim greater amounts each time.
-rule increasingClaimedAmounts(address _account, uint256 _claimable, bytes32[] _proof) {
+rule increasingClaimedAmounts(env e, address _account, uint256 _claimable, bytes32[] _proof) {
     uint256 claimed = claimed(_account);
 
-    claim(_account, _claimable, _proof);
+    claim(e, _account, _claimable, _proof);
 
     assert _claimable > claimed;
 }
 
 // Check that claiming twice is equivalent to claiming once with the last amount.
-rule claimTwice(address _account, uint256 _claim1, uint256 _claim2) {
+rule claimTwice(env e1, env e2, env e3, address _account, uint256 _claim1, uint256 _claim2) {
     storage initStorage = lastStorage;
 
     bytes32[] _proof1; bytes32[] _proof2;
-    claim(_account, _claim1, _proof1);
-    claim(_account, _claim2, _proof2);
+    claim(e1, _account, _claim1, _proof1);
+    claim(e2, _account, _claim2, _proof2);
     assert _claim2 >= _claim1;
 
     storage afterBothStorage = lastStorage;
 
     bytes32[] _proof3;
-    claim(_account, _claim2, _proof3) at initStorage;
+    claim(e3, _account, _claim2, _proof3) at initStorage;
 
     assert lastStorage == afterBothStorage;
 }
 
 // Check that the transferred amount is equal to the claimed amount minus the previous claimed amount.
-rule transferredTokens(address _account, uint256 _claimable, bytes32[] _proof) {
+rule transferredTokens(env e, address _account, uint256 _claimable, bytes32[] _proof) {
     // Assume that the rewards distributor itself is not receiving the tokens, to simplify this rule.
     require _account != currentContract;
 
@@ -70,14 +69,14 @@ rule transferredTokens(address _account, uint256 _claimable, bytes32[] _proof) {
     // Safe require because the sum is capped by the total supply.
     require balanceBefore + MorphoToken.balanceOf(currentContract) < 2^256;
 
-    claim(_account, _claimable, _proof);
+    claim(e, _account, _claimable, _proof);
 
     uint256 balanceAfter = MorphoToken.balanceOf(_account);
 
     assert balanceAfter - balanceBefore == _claimable - claimedBefore;
 }
 
-rule claimCorrectness(address _account, uint256 _claimable, bytes32[] _proof) {
+rule claimCorrectness(env e, address _account, uint256 _claimable, bytes32[] _proof) {
     address prevTree; address prevNode;
     address currTree; address currNode;
 
@@ -91,7 +90,7 @@ rule claimCorrectness(address _account, uint256 _claimable, bytes32[] _proof) {
     MerkleTrees.wellFormedPath(prevTree, prevNode, _proof);
     MerkleTrees.wellFormedPath(currTree, currNode, _proof);
 
-    claim(_account, _claimable, _proof);
+    claim(e, _account, _claimable, _proof);
 
     assert _claimable == MerkleTrees.getValue(prevTree, _account) ||
            _claimable == MerkleTrees.getValue(currTree, _account);

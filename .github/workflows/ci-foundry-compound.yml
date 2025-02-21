@@ -22,7 +22,6 @@ on:
 
 jobs:
   morpho-compound-eth-mainnet:
-    name: eth-mainnet
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -34,4 +33,3 @@ jobs:
           protocol: compound
           network: eth-mainnet
           alchemyKey: ${{ secrets.ALCHEMY_KEY }}
-          codecovToken: ${{ secrets.CODECOV_TOKEN }}

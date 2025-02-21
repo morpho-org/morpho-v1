@@ -695,7 +695,8 @@ contract TestRepay is TestSetup {
         }
     }
 
-    function testFailRepayZero() public {
+    function testRepayZero() public {
+        vm.expectRevert();
         morpho.repay(cDai, msg.sender, 0);
     }
 

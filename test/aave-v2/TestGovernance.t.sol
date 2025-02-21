@@ -404,7 +404,8 @@ contract TestGovernance is TestSetup {
         morpho.increaseP2PDeltas(aDai, increaseDeltaAmount);
     }
 
-    function testFailCallIncreaseP2PDeltasFromImplementation() public {
+    function testCallIncreaseP2PDeltasFromImplementation() public {
+        vm.expectRevert();
         exitPositionsManager.increaseP2PDeltasLogic(aDai, 0);
     }
 

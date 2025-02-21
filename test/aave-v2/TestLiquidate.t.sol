@@ -295,7 +295,8 @@ contract TestLiquidate is TestSetup {
         assertEq(inP2PBorrower, inP2PDai, "borrower supply in peer-to-peer");
     }
 
-    function testFailLiquidateZero() public {
+    function testLiquidateZero() public {
+        vm.expectRevert(abi.encodeWithSignature("AmountIsZero()"));
         morpho.liquidate(aDai, aDai, aDai, 0);
     }
 }

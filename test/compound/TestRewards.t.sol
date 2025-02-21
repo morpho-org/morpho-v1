@@ -343,7 +343,7 @@ contract TestRewards is TestSetup {
         );
     }
 
-    function testFailShouldNotClaimRewardsWhenRewardsManagerIsAddressZero() public {
+    function testShouldNotClaimRewardsWhenRewardsManagerIsAddressZero() public {
         uint256 amount = 1 ether;
 
         supplier1.approve(usdc, type(uint256).max);
@@ -362,6 +362,7 @@ contract TestRewards is TestSetup {
         rewardsManager.claimRewards(markets, address(supplier1));
 
         // User tries to claim its rewards on Morpho.
+        vm.expectRevert();
         supplier1.claimRewards(markets, false);
     }
 

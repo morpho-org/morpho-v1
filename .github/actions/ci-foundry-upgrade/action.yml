@@ -26,8 +26,6 @@ runs:
 
     - name: Install Foundry
       uses: foundry-rs/foundry-toolchain@v1
-      with:
-        version: nightly
 
     - name: Foundry fork cache
       uses: actions/cache@v3

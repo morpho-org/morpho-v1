@@ -253,7 +253,8 @@ contract TestLiquidate is TestSetup {
         testEquality(inP2PBorrower, inP2PDai, "borrower supply in peer-to-peer");
     }
 
-    function testFailLiquidateZero() public {
+    function testLiquidateZero() public {
+        vm.expectRevert();
         morpho.liquidate(cDai, cDai, cDai, 0);
     }
 

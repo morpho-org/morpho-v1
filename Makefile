@@ -83,35 +83,14 @@ test-%:
 contract-% c-%:
 	@FOUNDRY_MATCH_CONTRACT=$* make test
 
-coverage:
-	@echo Create lcov coverage report for Morpho-${PROTOCOL}-${NETWORK} tests
-	forge coverage --report lcov
-	lcov --remove lcov.info -o lcov.info "test/*"
-
-lcov-html:
-	@echo Transforming the lcov coverage report into html
-	genhtml lcov.info -o coverage
-
 gas-report:
 	@echo Create gas report from Morpho-${PROTOCOL}-${NETWORK} tests under \"${FOUNDRY_TEST}\"\
 		with profile \"${FOUNDRY_PROFILE}\", seed \"${FOUNDRY_FUZZ_SEED}\",
 
 	forge test --gas-report | tee trace.ansi
 
-storage-layout-generate:
-	@./scripts/storage-layout.sh generate snapshots/.storage-layout-${PROTOCOL} Morpho RewardsManager Lens
-
-storage-layout-check:
-	@./scripts/storage-layout.sh check snapshots/.storage-layout-${PROTOCOL} Morpho RewardsManager Lens
-
-storage-layout-generate-no-rewards:
-	@./scripts/storage-layout.sh generate snapshots/.storage-layout-${PROTOCOL} Morpho Lens
-
-storage-layout-check-no-rewards:
-	@./scripts/storage-layout.sh check snapshots/.storage-layout-${PROTOCOL} Morpho Lens
-
 config:
 	@forge config
 
 
-.PHONY: test config test-common foundry coverage contracts
+.PHONY: test config test-common foundry contracts
