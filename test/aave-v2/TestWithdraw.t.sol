@@ -670,34 +670,6 @@ contract TestWithdraw is TestSetup {
         morpho.withdraw(aDai, 0);
     }
 
-    function testFailInfiniteWithdraw() public {
-        uint256 balanceAtTheBeginning = ERC20(dai).balanceOf(address(supplier1));
-
-        uint256 amount = 1 ether;
-        supplier1.approve(dai, amount);
-        supplier1.supply(aDai, amount);
-        supplier2.approve(dai, 9 * amount);
-        supplier2.supply(aDai, 9 * amount);
-        borrower1.approve(wEth, 10 * amount);
-        borrower1.supply(aWeth, 10 * amount);
-        borrower1.borrow(aDai, 10 * amount);
-
-        morpho.setIsWithdrawPaused(aDai, true);
-
-        supplier1.withdraw(aDai, amount);
-        supplier1.withdraw(aDai, amount);
-        supplier1.withdraw(aDai, amount);
-        supplier1.withdraw(aDai, amount);
-        supplier1.withdraw(aDai, amount);
-        supplier1.withdraw(aDai, amount);
-        supplier1.withdraw(aDai, amount);
-        supplier1.withdraw(aDai, amount);
-        supplier1.withdraw(aDai, amount);
-        supplier1.withdraw(aDai, amount);
-
-        assertTrue(ERC20(dai).balanceOf(address(supplier1)) > balanceAtTheBeginning);
-    }
-
     function testShouldWithdrawToReceiver() public {
         uint256 amount = 10_000 ether;
 

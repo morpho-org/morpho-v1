@@ -594,7 +594,8 @@ contract TestRepay is TestSetup {
         }
     }
 
-    function testFailRepayZero() public {
+    function testRepayZero() public {
+        vm.expectRevert(abi.encodeWithSignature("AmountIsZero()"));
         morpho.repay(aDai, msg.sender, 0);
     }
 

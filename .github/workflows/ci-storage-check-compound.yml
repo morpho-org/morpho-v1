@@ -17,7 +17,6 @@ on:
 
 jobs:
   morpho-compound:
-    name: morpho-compound
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
@@ -35,20 +34,18 @@ jobs:
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: nightly
 
       - name: Check Lens storage layout
-        uses: Rubilmax/foundry-storage-check@v2.1.2
+        uses: Rubilmax/foundry-storage-check@v3
         with:
           contract: src/compound/lens/Lens.sol:Lens
 
       - name: Check Morpho storage layout
-        uses: Rubilmax/foundry-storage-check@v2.1.2
+        uses: Rubilmax/foundry-storage-check@v3
         with:
           contract: src/compound/Morpho.sol:Morpho
 
       - name: Check RewardsManager storage layout
-        uses: Rubilmax/foundry-storage-check@v2.1.2
+        uses: Rubilmax/foundry-storage-check@v3
         with:
           contract: src/compound/RewardsManager.sol:RewardsManager

@@ -1,6 +1,3 @@
-src/=src/
-test/=test/
-config/=config/
 @forge-std/=lib/forge-std/src/
 @morpho-dao/morpho-utils/=lib/morpho-utils/src/
 @morpho-dao/morpho-data-structures/=lib/morpho-data-structures/contracts/

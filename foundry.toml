@@ -1,4 +1,5 @@
 [profile.default]
+libs = ["node_modules", "lib"]
 auto_detect_solc = true
 optimizer = true
 optimizer_runs = 200

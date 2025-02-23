@@ -169,35 +169,9 @@ yarn test
 
 ---
 
-## Test coverage
-
-Test coverage is reported using [foundry](https://github.com/foundry-rs/foundry) coverage with [lcov](https://github.com/linux-test-project/lcov) report formatting (and optionally, [genhtml](https://manpages.ubuntu.com/manpages/xenial/man1/genhtml.1.html) transformer).
-
-To generate the `lcov` report, run the following:
-
-```bash
-make coverage
-```
-
-The report is then usable either:
-
-- via [Coverage Gutters](https://marketplace.visualstudio.com/items?itemName=ryanluker.vscode-coverage-gutters) following [this tutorial](https://mirror.xyz/devanon.eth/RrDvKPnlD-pmpuW7hQeR5wWdVjklrpOgPCOA-PJkWFU)
-- via HTML, using `make lcov-html` to transform the report and opening `coverage/index.html`
-
-:warning: Test coverage is not available on the Morpho-AaveV2 Optimizer for [this reason](https://github.com/foundry-rs/foundry/issues/3357#issuecomment-1297192171)
-
----
-
 ## Storage seatbelt
 
-2 CI pipelines are currently running on every PR to check that the changes introduced are not modifying the storage layout of proxied smart contracts in an unsafe way:
-
-- [storage-layout.sh](./scripts/storage-layout.sh) checks that the latest foundry storage layout snapshot is identical to the committed storage layout snapshot
-- [foundry-storage-check](https://github.com/Rubilmax/foundry-storage-diff) is in test phase and will progressively replace the snapshot check
-
-In the case the storage layout snapshots checked by `storage-layout.sh` are not identical, the developer must commit the updated storage layout snapshot stored under [snapshots/](./snapshots/) by running:
-
-- `make storage-layout-generate` with the appropriate protocol parameters
+A CI pipeline [foundry-storage-check](https://github.com/Rubilmax/foundry-storage-diff) is running on every PR to check that the changes introduced are not modifying the storage layout of proxied smart contracts in an unsafe way.
 
 ---
 

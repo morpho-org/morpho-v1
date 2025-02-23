@@ -122,7 +122,7 @@ contract TestMorphoGetters is TestSetup {
         assertEq(morpho.enteredMarkets(address(borrower1), 0), cUsdc);
     }
 
-    function testFailUserLeftMarkets() public {
+    function testUserLeftMarkets() public {
         borrower1.approve(dai, 10 ether);
         borrower1.supply(cDai, 10 ether);
 
@@ -133,6 +133,7 @@ contract TestMorphoGetters is TestSetup {
         borrower1.withdraw(cDai, 10 ether);
 
         // Test should fail because there is no element in the array.
+        vm.expectRevert();
         morpho.enteredMarkets(address(borrower1), 0);
     }
 

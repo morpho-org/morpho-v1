@@ -22,7 +22,6 @@ on:
 
 jobs:
   morpho-aave-v2-eth-mainnet:
-    name: eth-mainnet
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
