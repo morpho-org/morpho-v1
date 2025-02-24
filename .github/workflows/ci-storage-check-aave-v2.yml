@@ -35,15 +35,13 @@ jobs:
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: nightly
 
       - name: Check Lens storage layout
-        uses: Rubilmax/foundry-storage-check@v2.1.2
+        uses: Rubilmax/foundry-storage-check@v3
         with:
           contract: src/aave-v2/lens/Lens.sol:Lens
 
       - name: Check Morpho storage layout
-        uses: Rubilmax/foundry-storage-check@v2.1.2
+        uses: Rubilmax/foundry-storage-check@v3
         with:
           contract: src/aave-v2/Morpho.sol:Morpho

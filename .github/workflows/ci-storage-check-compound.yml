@@ -35,8 +35,6 @@ jobs:
 
       - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
-        with:
-          version: nightly
 
       - name: Check Lens storage layout
         uses: Rubilmax/foundry-storage-check@v2.1.2
